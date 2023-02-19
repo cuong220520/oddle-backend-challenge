@@ -1,0 +1,256 @@
+{
+	"info": {
+		"_postman_id": "c5601e44-ee7a-4623-8499-edfa190e39d3",
+		"name": "oddle-backend-challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "owm get current weather",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{owm_host}}/data/2.5/weather?lat={{lat}}&lon={{lon}}&appid={{owm_api_key}}",
+					"host": [
+						"{{owm_host}}"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "{{lat}}"
+						},
+						{
+							"key": "lon",
+							"value": "{{lon}}"
+						},
+						{
+							"key": "appid",
+							"value": "{{owm_api_key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "owm get location",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json()",
+							"",
+							"pm.environment.set('lat', jsonData[0].lat)",
+							"pm.environment.set('lon', jsonData[0].lon)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{owm_host}}/geo/1.0/direct?q=hanoi&limit=1&appid={{owm_api_key}}",
+					"host": [
+						"{{owm_host}}"
+					],
+					"path": [
+						"geo",
+						"1.0",
+						"direct"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "hanoi"
+						},
+						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
+							"key": "appid",
+							"value": "{{owm_api_key}}"
+						},
+						{
+							"key": "limit",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get current weather by city",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "vi",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{weather_host}}/current?city=",
+					"host": [
+						"{{weather_host}}"
+					],
+					"path": [
+						"current"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "owm get historical weather",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{owm_historical_host}}/data/2.5/history/city?lat={{lat}}&lon={{lon}}&type=hour&start=1676046503&end=1676564903&appid={{owm_api_key}}",
+					"host": [
+						"{{owm_historical_host}}"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"history",
+						"city"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "{{lat}}"
+						},
+						{
+							"key": "lon",
+							"value": "{{lon}}"
+						},
+						{
+							"key": "type",
+							"value": "hour"
+						},
+						{
+							"key": "start",
+							"value": "1676046503"
+						},
+						{
+							"key": "end",
+							"value": "1676564903"
+						},
+						{
+							"key": "appid",
+							"value": "{{owm_api_key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get historical weather data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{weather_host}}/history?city=hanoi&type=hour&start=2023-01-01 00:00:00&end=2023-01-01 23:59:59",
+					"host": [
+						"{{weather_host}}"
+					],
+					"path": [
+						"history"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "hanoi"
+						},
+						{
+							"key": "type",
+							"value": "hour"
+						},
+						{
+							"key": "start",
+							"value": "2023-01-01 00:00:00"
+						},
+						{
+							"key": "end",
+							"value": "2023-01-01 23:59:59"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "save weather data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"id\": null,\n        \"mainStatus\": \"Clear\",\n        \"description\": \"clear sky\",\n        \"icon\": \"01n\",\n        \"temp\": 288.11,\n        \"feelsLike\": 287.44,\n        \"tempMin\": 288.11,\n        \"tempMax\": 288.11,\n        \"pressure\": 1024.0,\n        \"humidity\": 68.0,\n        \"seaLevel\": null,\n        \"grndLevel\": null,\n        \"windSpeed\": 0.82,\n        \"windDeg\": 142.0,\n        \"windGust\": 1.14,\n        \"visibility\": null,\n        \"rain\": null,\n        \"cloud\": 1,\n        \"sunrise\": null,\n        \"sunset\": null,\n        \"createdAt\": null,\n        \"createdBy\": null,\n        \"updatedAt\": null,\n        \"updatedBy\": null,\n        \"dateTime\": \"2023-01-01 00:00:00\",\n        \"dt\": 1672506000\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{weather_host}}/save",
+					"host": [
+						"{{weather_host}}"
+					],
+					"path": [
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update weather data",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"mainStatus\": \"Brighten\",\n    \"description\": \"clear sky\",\n    \"icon\": \"01n\",\n    \"temp\": 288.11,\n    \"feelsLike\": 287.44,\n    \"tempMin\": 288.11,\n    \"tempMax\": 288.11,\n    \"pressure\": 1024.0,\n    \"humidity\": 68.0,\n    \"seaLevel\": null,\n    \"grndLevel\": null,\n    \"windSpeed\": 0.82,\n    \"windDeg\": 142.0,\n    \"windGust\": 1.14,\n    \"visibility\": null,\n    \"rain\": null,\n    \"cloud\": 1,\n    \"sunrise\": null,\n    \"sunset\": null,\n    \"createdAt\": 1676822566099,\n    \"createdBy\": null,\n    \"updatedAt\": 1676822566099,\n    \"updatedBy\": null,\n    \"dt\": 1672506000,\n    \"dateTime\": \"2023-01-01 00:00:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{weather_host}}/update",
+					"host": [
+						"{{weather_host}}"
+					],
+					"path": [
+						"update"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
